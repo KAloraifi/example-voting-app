@@ -30,6 +30,8 @@ pipeline {
   }
 
   post {
-    echo 'node pipeline completed..'
+    always {
+      echo 'node pipeline completed..'
+    }
   }
 }
