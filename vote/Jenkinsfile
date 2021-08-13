@@ -1,0 +1,36 @@
+pipeline {
+  agent {
+    docker {
+      image: 'python:2.7.16-slim'
+    }
+  }
+  
+  stages {
+    stage('Build') {
+      when {
+        changeset '**/vote/**'
+      }
+      steps {
+        dir('vote') {
+          sh 'pip install -r requirements.txt'
+        }
+      }
+    }
+    stage('Test') {
+      when {
+        changeset '**/vote/**'
+      }
+      steps {
+        dir('vote') {
+          sh 'nosetests -v'
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      echo 'python vote app pipeline completed..'
+    }
+  }
+}
